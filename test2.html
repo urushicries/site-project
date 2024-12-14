@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Проверка ссылок</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #2f3136;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .test-container {
+            background-color: #36393f;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+            position: relative;
+        }
+        .question {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .option {
+            background-color: #3ba55c;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .option:hover {
+            background-color: #2e8b46;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 1.2rem;
+        }
+        .progress-bar-container {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            height: 10px;
+            background-color: #444;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        .progress-bar {
+            height: 100%;
+            width: 0;
+            background-color: #3ba55c;
+            transition: width 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+
+<div class="test-container">
+    <div class="question" id="question">Готовы проверить свои знания?</div>
+    <div class="options" id="options">
+        <div class="option" onclick="nextQuestion(0)">Да</div>
+        <div class="option" onclick="nextQuestion(0)">Нет</div>
+    </div>
+    <div class="result" id="result"></div>
+    <div class="progress-bar-container">
+        <div class="progress-bar" id="progress-bar"></div>
+    </div>
+</div>
+
+<script>
+    const questions = [
+        {
+            text: "Ссылка: https://www.cberbank.ru/. Это безопасный сайт?",
+            options: [
+                { text: "Да", correct: false },
+                { text: "Нет", correct: true }
+            ]
+        },
+        {
+            text: "Ссылка: https://www.amaz0n.com/. Это подлинная ссылка?",
+            options: [
+                { text: "Да", correct: false },
+                { text: "Нет", correct: true }
+            ]
+        },
+        {
+            text: "Ссылка: http://www.google-account-login.com/. Это официальная страница Google?",
+            options: [
+                { text: "Да", correct: false },
+                { text: "Нет", correct: true }
+            ]
+        },
+        {
+            text: "Ссылка: https://paypal.com.secure-login.ru/. Это безопасно?",
+            options: [
+                { text: "Да", correct: false },
+                { text: "Нет", correct: true }
+            ]
+        },
+        {
+            text: "Ссылка: https://www.microsoft-support.com/. Это официальный сайт Microsoft?",
+            options: [
+                { text: "Да", correct: false },
+                { text: "Нет", correct: true }
+            ]
+        },
+        {
+            text: "Ссылка: https://secure.bank.com/verify. Вы проверите ее перед вводом данных?",
+            options: [
+                { text: "Да", correct: true },
+                { text: "Нет", correct: false }
+            ]
+        },
+        {
+            text: "Ссылка: https://store.apple.com/. Это подлинная ссылка на магазин Apple?",
+            options: [
+                { text: "Да", correct: true },
+                { text: "Нет", correct: false }
+            ]
+        }
+    ];
+
+    let currentQuestion = 0;
+    let score = 0;
+
+    function showQuestion() {
+        const questionElement = document.getElementById("question");
+        const optionsElement = document.getElementById("options");
+        const resultElement = document.getElementById("result");
+
+        resultElement.textContent = "";
+
+        if (currentQuestion < questions.length) {
+            const question = questions[currentQuestion];
+            questionElement.textContent = question.text;
+            optionsElement.innerHTML = "";
+
+            question.options.forEach(option => {
+                const button = document.createElement("div");
+                button.className = "option";
+                button.textContent = option.text;
+                button.onclick = () => handleOptionClick(option.correct);
+                optionsElement.appendChild(button);
+            });
+        } else {
+            questionElement.textContent = "Вы завершили тест!";
+            optionsElement.innerHTML = "";
+            showResult();
+        }
+    }
+
+    function handleOptionClick(correct) {
+        if (correct) {
+            score++;
+            updateProgressBar();
+        }
+        currentQuestion++;
+        showQuestion();
+    }
+
+    function showResult() {
+        const questionElement = document.getElementById("question");
+        const percentage = (score / questions.length) * 100;
+        setTimeout(() => {
+        if (percentage === 100) {
+            questionElement.textContent = "Отличная работа! Вы распознали все поддельные ссылки.";
+        } else if (percentage >= 70) {
+            questionElement.textContent = "Хорошо! Но будьте внимательны с поддельными ссылками.";
+        } else {
+            questionElement.textContent = "Будьте осторожны! Многие ссылки оказались небезопасными.";
+        }
+    }, 1000);
+    setTimeout(() => {
+        alert("Тест завершен! Спасибо за участие.");
+        window.location.href = "index.html";
+    }, 5000);
+    }
+
+    function updateProgressBar() {
+        const progressBar = document.getElementById("progress-bar");
+        const percentage = (score / questions.length) * 100;
+        progressBar.style.width = `${percentage}%`;
+    }
+
+    showQuestion();
+</script>
+
+</body>
+</html>

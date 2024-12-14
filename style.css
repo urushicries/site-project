@@ -1,0 +1,310 @@
+/* Общие стили */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
+  background-color: #000000; /* Темный фон */
+  color: #e0e0e0; /* Светлый текст */
+}
+
+/* Стили для шапки сайта */
+header {
+  background-color: #000000; /* Темный оттенок для шапки */
+  color: white;
+  text-align: center;
+}
+
+header h1 {
+  font-size: 70px;
+}
+
+header p {
+  font-size: 1.2rem;
+}
+
+/* Стили для секции с тестом */
+.start-test {
+  padding: 50px;
+  text-align: center;
+  margin: 30px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 300px;
+  flex-direction: column; /* Изменено на горизонтальное выравнивание */
+}
+
+.start-test p {
+  padding: 50px;
+  width: 100%;
+  font-weight: bold;
+  font-size: 40px;
+  color: #e0e0e0; /* Белый текст для видимости */
+  text-align: center; /* Центрирование текста */
+}
+
+/* Общие стили для всех кнопок */
+button {
+  margin-top: 20px;
+  padding: 50px 50px;
+  margin: 0 10px;
+  margin-bottom: 50px;
+  border: none;
+  border-radius: 5px;
+  font-size: 30px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.5s ease, transform 0.5s ease;
+}
+
+/* Стиль для кнопки "Антифишинг тест" */
+.button-anti-phishing {
+  background-color: #103300; /* Темно-бирюзовый */
+  color: white;
+}
+
+.button-anti-phishing:hover {
+  background-color: #38b100; /* Более темный бирюзовый при наведении */
+}
+
+.button-anti-phishing:active {
+  transform: scale(0.98);
+}
+
+/* Стиль для кнопки "Проверка ссылок на валидность" */
+.button-link-validation {
+  background-color: #2f004e; /* Оранжевый */
+  color: white;
+}
+
+.button-link-validation:hover {
+  background-color: #9900ff; /* Темно-оранжевый при наведении */
+}
+
+.button-link-validation:active {
+  transform: scale(0.98);
+}
+
+/* Стиль для кнопки "Тест на знания" */
+.button-knowledge-test {
+  background-color: #001e5f; /* Синий */
+  color: white;
+}
+
+.button-knowledge-test:hover {
+  background-color: #3b82f6; /* Более темный синий при наведении */
+}
+
+.button-knowledge-test:active {
+  transform: scale(0.98);
+}
+
+
+
+
+/* Стили для секции с каруселью статей */
+.articles-carousel {
+  padding: 30px;
+  background-color: rgba(0, 0, 0, 0); /* Темный фон */
+  margin: 20px 0;
+}
+
+.articles-carousel h2 {
+  font-size: 60px;
+  text-align: center;
+  margin-bottom: 25px;
+  color: #e0e0e0; /* Светлый текст для заголовков */
+}
+
+.carousel {
+  display: flex;
+  flex-direction:inherit; /* Align items vertically */
+  align-items: center;
+  gap: 20px;
+  background-color: rgba(0, 0, 0, 0);
+  overflow-x: auto;
+  padding: 20px;
+}
+
+/* Стили для статьи */
+.article {
+  flex-direction: column;
+  box-shadow:-5px 5px 5px rgb(112, 34, 93);
+  width: 300px;
+  background-color: rgba(121, 91, 255, 0.548); /* Темный фон для статьи */
+  border: 3px solid #ff69da; /* Темная рамка */
+  border-radius: 10px;
+  display: flex;
+  padding: 20px;
+  cursor: pointer;
+  transition: transform 1s ease, box-shadow 1s ease, background-color 1s ease;
+  justify-content: flex-start;
+}
+
+.container {
+  margin-left: 170px;
+  justify-content:space-around;
+  display: flex;
+  gap: 10px;
+  padding: 10px;
+  border: 0px solid #ddd;
+}
+
+.item {
+
+  background-color: #f4f4f4;
+  padding: 20px;
+  border: 1px solid #ddd;
+}
+
+.row {
+
+  flex-direction: row;
+}
+
+.column {
+  flex-direction: column;
+}
+
+/* Стили для hover */
+.article:hover {
+  box-shadow: -5px 12px 12px rgba(255, 36, 207, 0.2); /* Легкая подсветка при наведении */
+  transform: scale(1.05);
+  background-color: rgb(121, 91, 255); /* Темный фон для статьи */
+  transition: transform 1s ease, box-shadow 1s ease, background-color 1s ease;
+}
+
+/* Стили для названия статьи */
+.article-title {
+  font-weight: bold;
+  font-size: 22px;
+  text-align: center;
+  color: #ffffff; /* Белый текст */
+  margin-bottom: 10px;
+
+}
+.article-content::-webkit-scrollbar {
+  display: none; /* Для Chrome, Safari */
+}
+/* Стили для скрытого текста статьи */
+.article-content {
+  display: none;
+  font-size: 1rem;
+  overflow: auto;
+  scrollbar-width: none; /* Для Firefox */
+  color: whitesmoke; /* Светло-серый для текста */
+  text-align: left;
+  transition: opacity 0.3s ease-in-out;
+}
+
+/* Общие стили для раскрытой статьи */
+.article.open {
+  position: fixed;
+  top: 70%; /* Начало на 300px ниже центра */
+  left: 33%; /* Центр по горизонтали */
+  width: 600px;
+  height: 800px;
+  background-color: #1a1a1a; /* Темный фон для модального окна */
+  box-shadow: 0 4px 10px rgba(255, 255, 255, 0.3);
+  z-index: 1001;
+  overflow-y: auto;
+  padding: 20px;
+  border-radius: 10px;
+
+}
+
+/* Анимация для перемещения в центр */
+.article.open.animate {
+  transition: all 0.8s ease; /* Плавный переход */
+  transform: translate(0, -70%); /* Центр экрана */
+}
+
+
+/* Стили для отображения текста статьи при открытии */
+.article.open .article-content {
+  display: block;
+}
+
+
+/* Затемняющий фон */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 1000;
+}
+
+/* Стили для секции с подборкой антивирусов */
+.antivirus-section {
+  padding: 20px;
+  background-color: #000000;
+}
+
+.antivirus-section h2 {
+  text-align: center;
+  margin-bottom: 50px;
+  color: #e0e0e0;
+  font-size: 30px;
+}
+
+.antivirus-blocks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 100px;
+  justify-content: center;
+}
+
+.antivirus-block {
+  
+  flex: 1 1 300px;
+  max-width: 350px;
+  background-color: #6361b9; /* Темный фон для блока */
+  padding: 15px;
+  border: 3px solid #ff0ba2;
+  border-radius: 5px;
+  box-shadow: -5px 9px 9px rgba(130, 103, 248, 0.5);
+  text-align: center;
+  transition: all 0.5s ease;
+}
+
+.antivirus-block:hover {
+  transition: all 0.5s ease;
+  background-color: #7b79e9; /* Темный фон для блока */
+  transform: scale(1.1);
+  box-shadow: 0 4px 8px rgba(147, 108, 255, 0.822);
+}
+
+.antivirus-block h3 {
+  margin: 0 0 10px;
+  font-size: 1.2rem;
+  color: #ffffff; /* Светлый текст */
+}
+
+.antivirus-block p {
+  margin: 0 0 10px;
+  font-size: 1rem;
+  font-weight: bolder;
+  color: #cafffb; /* Светло-серый текст */
+}
+.antivirus-section p {
+  margin-top: 20px;
+  text-align: center;
+}
+.antivirus-block a {
+  display: inline-block;
+  padding: 10px 15px;
+  background-color: #004085;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  transition: background-color 0.3s ease;
+}
+
+.antivirus-block a:hover {
+  background-color: #248eff;
+}

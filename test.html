@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <title>Антифишинг Тест</title>
+    <style>
+        body {
+            font-family: 'Open Sans', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #2f3136; /* Dark background */
+        }
+        .chat-container {
+            width: 450px;
+            max-height: 650px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            background-color: #36393f;
+            display: flex;
+            flex-direction: column;
+        }
+        .chat-header {
+            background-color: #7289da;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            font-weight: bold;
+        }
+        .chat-box {
+            flex: 1;
+            overflow-y: auto;
+            padding: 10px;
+            background-color: #2f3136;
+        }
+        .chat-box::-webkit-scrollbar {
+            width: 6px;
+        }
+        .chat-box::-webkit-scrollbar-thumb {
+            background-color: #7289da;
+            border-radius: 2px;
+        }
+        .message {
+            margin: 8px 0;
+            max-width: 90%;
+            padding: 10px;
+            border-radius: 10px;
+            position: relative;
+            display: inline-block;
+            animation: fadeIn 0.5s forwards;
+        }
+        .bot-message {
+            background-color: #7289da;
+            color: white;
+            align-self: flex-start;
+        }
+        .user-message {
+            background-color: #43b581;
+            color: white;
+            align-self: flex-end;
+            text-align: right;
+        }
+        .options {
+            display: flex;
+            flex-direction: column;
+            margin-top: 10px;
+        }
+        .option {
+            background-color: #3ba55c;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 5px 0;
+            cursor: pointer;
+            text-align: center;
+            transition: background-color 0.3s;
+        }
+        .option:hover {
+            background-color: #2e8b46;
+        }
+        .feedback-message {
+            background-color: #7c6c1b;
+            color: #333;
+            max-width: 80%;
+            margin: 10px auto;
+            text-align: center;
+            padding: 10px;
+            border-radius: 10px;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+<div class="chat-container">
+    <div class="chat-header">Антифишинг Тест</div>
+    <div id="chat" class="chat-box"></div>
+    <div id="options" class="options"></div>
+</div>
+
+<script>
+    const chat = document.getElementById("chat");
+    const options = document.getElementById("options");
+
+    let step = 0;
+
+    const messages = [
+        {
+            text: "Вы получили письмо от Сбербанка с подозрительной ссылкой: https://www.cberbank.ru/. Перейдете ли вы?",
+            options: [
+                { text: "Да", correct: false },
+                { text: "Нет", correct: true }
+            ],
+            responseIfCorrect: "Правильно! Важно проверять адрес ссылки — https://www.sberbank.ru/ отличается от мошеннического.",
+            responseIfIncorrect: "Неверно. Даже похожие ссылки могут быть поддельными. Будьте осторожны!"
+        },
+        {
+            text: "Ваш друг отправил голосовое сообщение с просьбой перевести деньги. Ваши действия?",
+            options: [
+                { text: "Переведу деньги", correct: false },
+                { text: "Уточню у друга лично", correct: true }
+            ],
+            responseIfCorrect: "Верно! Мошенники могут подделывать голос. Лучше позвоните другу.",
+            responseIfIncorrect: "Неверно! Проверяйте информацию перед переводом денег."
+        },
+        {
+            text: "Вы получили сообщение о случайном выигрыше с ссылкой: http://prizewinner.com/claim. Перейдете ли вы?",
+            options: [
+                { text: "Да", correct: false },
+                { text: "Нет", correct: true }
+            ],
+            responseIfCorrect: "Правильно! Такие ссылки часто ведут на фишинговые сайты.",
+            responseIfIncorrect: "Неверно. Никогда не переходите по незнакомым ссылкам."
+        },
+        {
+            text: "Письмо от налоговой службы с просьбой оплатить налоги через ссылку. Ваши действия?",
+            options: [
+                { text: "Открою ссылку", correct: false },
+                { text: "Позвоню в налоговую", correct: true }
+            ],
+            responseIfCorrect: "Отличный выбор! Официальные учреждения редко просят переходить по ссылкам.",
+            responseIfIncorrect: "Неверно! Лучше уточните информацию напрямую в налоговой службе."
+        },
+        {
+            text: "Реклама известного бренда предлагает подарки за личные данные. Вы заполните форму?",
+            options: [
+                { text: "Да", correct: false },
+                { text: "Нет", correct: true }
+            ],
+            responseIfCorrect: "Правильно! Мошенники часто используют заманчивые предложения.",
+            responseIfIncorrect: "Неверно! Не стоит доверять таким рекламным акциям."
+        }
+    ];
+
+    function showMessage(message, isBot) {
+        const messageElement = document.createElement("div");
+        messageElement.classList.add("message", isBot ? "bot-message" : "user-message");
+        messageElement.textContent = message;
+        chat.appendChild(messageElement);
+        chat.scrollTop = chat.scrollHeight;
+    }
+
+    function handleOptionClick(option) {
+        showMessage(option.text, false);
+        if (option.correct) {
+            showMessage(messages[step].responseIfCorrect, true);
+        } else {
+            showMessage(messages[step].responseIfIncorrect, true);
+        }
+        step++;
+        if (step < messages.length) {
+            setTimeout(() => startChat(), 1500);
+        } else {
+            setTimeout(() =>window.location.href = "index.html", 1500);
+            alert("Тест завершен! Спасибо за участие.")
+        }
+    }
+
+    function showOptions() {
+        options.innerHTML = "";
+        messages[step].options.forEach(option => {
+            const optionElement = document.createElement("div");
+            optionElement.classList.add("option");
+            optionElement.textContent = option.text;
+            optionElement.onclick = () => handleOptionClick(option);
+            options.appendChild(optionElement);
+            
+        });
+    }
+
+    function startChat() {
+        showMessage(messages[step].text, true);
+        showOptions();
+    }
+
+    startChat();
+</script>
+</body>
+</html>
